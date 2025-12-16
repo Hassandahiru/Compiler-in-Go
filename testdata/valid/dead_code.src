@@ -1,0 +1,80 @@
+package main
+
+// This file tests dead code elimination
+// The optimizer should remove all unused computations
+
+func testUnusedVariables() int {
+    // These are never used - should be eliminated
+    var unused1 int = 100;
+    var unused2 int = unused1 * 200;
+    var unused3 int = 42 + 58;
+
+    // Only this is used
+    var result int = 10;
+    return result;
+}
+
+func testDeadAfterReturn() int {
+    var x int = 5;
+    return x;
+
+    // Everything below is unreachable - should be eliminated
+    var y int = 10;
+    var z int = y * 2;
+    return z;
+}
+
+func testPartiallyUsed() int {
+    var a int = 1;
+    var b int = 2;
+    var c int = 3;
+    var d int = 4;
+
+    // Only a and b are used in the return
+    // c and d should be eliminated
+    return a + b;
+}
+
+func testDeadBranch() int {
+    // Constant condition - one branch is dead
+    if (false) {
+        // This entire block is unreachable
+        var x int = 100;
+        var y int = x * 2;
+        return y;
+    }
+
+    return 42;
+}
+
+func testUnusedComputations() int {
+    var x int = 10;
+
+    // This computation is done but never used
+    var temp int = x * x * x;
+
+    // Only x is returned
+    return x;
+}
+
+func testDeadAfterConditional() int {
+    var x int = 5;
+
+    if (x > 0) {
+        return 10;
+    }
+
+    // If we reach here, x <= 0
+    // But in this case we always return in the if
+    // So this is dead code
+    var dead int = 999;
+    return dead;
+}
+
+func main() {
+    var r1 int = testUnusedVariables();
+    var r2 int = testDeadAfterReturn();
+    var r3 int = testPartiallyUsed();
+    var r4 int = testDeadBranch();
+    var r5 int = testUnusedComputations();
+}

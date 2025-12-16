@@ -1,0 +1,27 @@
+package main
+
+func testErrors() {
+    // Type mismatch
+    var x int = "hello";
+
+    // Undefined variable
+    var y int = z + 5;
+
+    // Wrong operator types
+    var b bool = 5 + true;
+
+    // Function call errors
+    var result int = testErrors(5);  // testErrors takes no arguments
+}
+
+func useUndefined() {
+    return foo();  // foo is not defined
+}
+
+func wrongReturn() int {
+    return "string";  // should return int
+}
+
+func breakOutsideLoop() {
+    break;  // break outside loop
+}

@@ -1,0 +1,58 @@
+package main
+
+// This file tests constant folding optimization
+// The optimizer should evaluate all constant expressions at compile time
+
+func testArithmetic() int {
+    // Simple arithmetic - should all be computed at compile time
+    var a int = 2 + 3;           // 5
+    var b int = 10 - 4;          // 6
+    var c int = 7 * 8;           // 56
+    var d int = 20 / 4;          // 5
+    var e int = 17 % 5;          // 2
+
+    // Chained operations
+    var result int = a + b * c - d / e;  // 5 + 6*56 - 5/2 = 5 + 336 - 2 = 339
+
+    return result;
+}
+
+func testComparisons() bool {
+    // Comparison operations - should be folded to true/false
+    var a bool = 5 > 3;          // true
+    var b bool = 10 < 20;        // true
+    var c bool = 7 == 7;         // true
+    var d bool = 4 != 4;         // false
+    var e bool = 15 >= 15;       // true
+    var f bool = 8 <= 9;         // true
+
+    return a && b && c && e && f;  // true
+}
+
+func testBitwise() int {
+    // Bitwise operations
+    var a int = 12 & 10;         // 8 (1100 & 1010 = 1000)
+    var b int = 12 | 10;         // 14 (1100 | 1010 = 1110)
+    var c int = 12 ^ 10;         // 6 (1100 ^ 1010 = 0110)
+    var d int = 4 << 2;          // 16 (shift left)
+    var e int = 16 >> 2;         // 4 (shift right)
+
+    return a + b + c + d + e;    // 8 + 14 + 6 + 16 + 4 = 48
+}
+
+func testChainedConstants() int {
+    // Test constant propagation through variables
+    var x int = 10;
+    var y int = x + 5;           // Should fold to 15
+    var z int = y * 2;           // Should fold to 30
+    var result int = z - 10;     // Should fold to 20
+
+    return result;               // Expected: 20
+}
+
+func main() {
+    var r1 int = testArithmetic();
+    var r2 bool = testComparisons();
+    var r3 int = testBitwise();
+    var r4 int = testChainedConstants();
+}

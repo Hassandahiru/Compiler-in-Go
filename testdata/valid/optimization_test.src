@@ -1,0 +1,27 @@
+package main
+
+// Test constant folding and dead code elimination
+func testOptimizations() int {
+    // Constant folding - these should be computed at compile time
+    var a int = 2 + 3;           // Should become: a = 5
+    var b int = a * 4;           // Should become: b = 20
+    var c int = b - 10;          // Should become: c = 10
+
+    // Dead code - x is computed but never used
+    var x int = 100 * 200;
+
+    // This uses c, so c's computation chain should be kept
+    return c;
+}
+
+func testDeadCode() int {
+    var unused1 int = 42;        // Dead - never used
+    var unused2 int = unused1 * 2; // Dead - never used
+
+    var result int = 5;
+    return result;               // Only this should remain
+}
+
+func main() {
+    var value int = testOptimizations();
+}

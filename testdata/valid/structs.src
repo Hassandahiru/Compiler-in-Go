@@ -1,0 +1,29 @@
+package geometry
+
+// Point represents a 2D point
+struct Point {
+    x int;
+    y int;
+}
+
+// Distance type alias
+type Distance = int;
+
+// Calculate the squared distance between two points
+func distanceSquared(p1 Point, p2 Point) Distance {
+    var dx int = p1.x - p2.x;
+    var dy int = p1.y - p2.y;
+    return dx * dx + dy * dy;
+}
+
+// Create a new point
+func newPoint(x int, y int) Point {
+    return Point{x: x, y: y};
+}
+
+// Main function demonstrating struct usage
+func main() {
+    var p1 Point = newPoint(0, 0);
+    var p2 Point = newPoint(3, 4);
+    var dist Distance = distanceSquared(p1, p2);
+}
