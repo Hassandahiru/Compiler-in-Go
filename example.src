@@ -1,0 +1,22 @@
+package main
+
+// Example program demonstrating the compiler features
+
+func factorial(n int) int {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+func main() {
+    // Test factorial
+    var fact5 int = factorial(5);
+
+    // Some arithmetic that will be optimized
+    var x int = 2 + 3;      // Will fold to 5
+    var y int = x * 4;      // Will fold to 20
+
+    // This is dead code - z is never used
+    var z int = 100 * 200;
+}
